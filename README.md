@@ -1,8 +1,13 @@
 # xpra-standalone
 Demo docker of xpra (xpra.org) with browser access
 
-Simply run build_and_run to build the image and run it on the local host
-on port 14502. Point your web browser to localhost:14502. Login with
-username wuebbel and password wuebbel.
+Build the image or run
 
-Definitely, do not run this in production.
+docker run -d -p 14502:14500 --name xpra-standalone -h xpra-standalone wuebbel/xpra-standalone 
+firefox http://localhost:14502/connect.html
+
+The fixed Username/Password is wuebbel/wuebbel.
+
+This is meant as a demo for xpra installation and testing.
+
+**Do no run this in production.**

@@ -1,5 +1,5 @@
 From ubuntu:18.04
-MAINTAINER wuebbel@gmail.com
+MAINTAINER github@inverse-problems.de
 ENV DEBIAN_FRONTEND=noninteractive
 
 # install repository
@@ -10,6 +10,7 @@ RUN echo "deb http://winswitch.org/ bionic main" > /etc/apt/sources.list.d/winsw
 RUN apt-get update
 
 #install xpra
+# The latest version seems to have issues
 #RUN apt-get install -y xpra=3.0.4-r24778-1 xpra-html5=3.0.4-r24778-1
 RUN apt-get install -y xpra xpra-html5
 
