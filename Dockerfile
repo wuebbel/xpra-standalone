@@ -10,8 +10,8 @@ RUN echo "deb http://winswitch.org/ bionic main" > /etc/apt/sources.list.d/winsw
 RUN apt-get update
 
 #install xpra
-RUN apt-get install -y xpra=3.0.4-r24778-1 xpra-html5=3.0.4-r24778-1
-#RUN apt-get install -y xpra xpra-html5
+#RUN apt-get install -y xpra=3.0.4-r24778-1 xpra-html5=3.0.4-r24778-1
+RUN apt-get install -y xpra xpra-html5
 
 #configure xpra
 RUN apt-get install -y xterm ed
@@ -24,6 +24,7 @@ RUN /bin/echo -e '/mdns\nc\nmdns = no\n.\nw\nq\n' | ed /etc/xpra/conf.d/50_serve
 #add a dummy user wuebbel with password wuebbel
 RUN adduser wuebbel </dev/null
 RUN /bin/echo -e "wuebbel\nwuebbel" | passwd wuebbel
+
 COPY init.sh /
 CMD /bin/bash /init.sh
 WORKDIR /root
