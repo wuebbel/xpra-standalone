@@ -9,3 +9,5 @@ docker run -h $NAME \
 	-p 14502:14500 \
 	wuebbel/$NAME
 #docker exec -t -i $NAME /bin/bash --login
+sleep 2
+firefox localhost:14502
