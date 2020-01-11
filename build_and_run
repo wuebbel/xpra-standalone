@@ -1,0 +1,17 @@
+#!/bin/sh
+NAME=xpra-standalone
+docker stop $NAME
+docker rm $NAME
+docker build -t wuebbel/$NAME .
+docker run -h $NAME \
+	-d \
+	--dns 128.176.0.12 \
+	--name $NAME \
+	-p 14502:14500 \
+	-e START_SSHD=yes \
+	-e START_SSSD=yes \
+	-e START_SYSLOG=yes \
+	-e STARTUP_PROG= \
+	--cap-add SYS_PTRACE \
+	wuebbel/$NAME
+docker exec -t -i $NAME /bin/bash --login
