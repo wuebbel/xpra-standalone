@@ -18,9 +18,9 @@ RUN apt-get update
 RUN apt-get install -y xpra xpra-html5
 
 #configure xpra
-RUN apt-get install -y xterm ed
+RUN apt-get install -y xterm ed less vim lxterminal
 RUN mkdir /run/xpra; chmod 777 /run/xpra
-RUN echo "start-child = /usr/bin/xterm" >>/etc/xpra/conf.d/60_server.conf 
+RUN echo "start-child = /usr/bin/lxterminal" >>/etc/xpra/conf.d/60_server.conf 
 RUN /bin/echo -e '/mdns\nc\nmdns = no\n.\nw\nq\n' | ed /etc/xpra/conf.d/50_server_network.conf         
 RUN /bin/echo -e '/lang =\nc\nvar lang="de-de";\n.\nw\nq\n'|ed /usr/share/xpra/www/connect.html
 RUN rm /usr/share/xpra/www/connect.html.*

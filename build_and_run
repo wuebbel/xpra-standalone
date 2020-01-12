@@ -10,4 +10,4 @@ docker run -h $NAME \
 	wuebbel/$NAME
 #docker exec -t -i $NAME /bin/bash --login
 sleep 2
-firefox localhost:14502
+#firefox localhost:14502
