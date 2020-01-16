@@ -1,13 +1,51 @@
 #!/bin/sh
+#set -x
 NAME=xpra-standalone
-docker stop $NAME
-docker rm $NAME
-docker build -t wuebbel/$NAME .
-docker run -h $NAME \
-	-d \
-	--name $NAME \
-	-p 14502:14500 \
-	wuebbel/$NAME
-#docker exec -t -i $NAME /bin/bash --login
-sleep 2
-#firefox localhost:14502
+COMM="$1"
+echo "Command: $COMM"
+if test "$COMM" = help; then
+	echo 'stop|run|runin|build|browser|logs|rmi'
+	exit 0
+fi
+if test "$COMM" = stop; then
+	docker stop $NAME
+	docker rm $NAME
+	exit 0
+fi
+if test "$COMM" = runin; then
+	docker exec -t -i $NAME /bin/bash --login
+	exit 0
+fi
+if test "$COMM" = run; then
+	$0 stop 
+	docker run -h $NAME \
+		-d \
+		--name $NAME \
+		-p 14502:14500 \
+		wuebbel/$NAME
+	exit 0
+fi
+if test "$COMM" = build; then
+	$0 stop
+	docker build -t wuebbel/$NAME .
+	exit 0
+fi
+if test "$COMM" = browser; then
+	firefox localhost:14502
+	exit 0
+fi
+if test "$COMM" = "logs"; then
+	docker logs $NAME
+	exit 0
+fi
+if test "$COMM" = rmi; then
+	$0 stop
+	docker rmi wuebbel/$NAME
+	exit 0
+fi
+if test "$COMM" = ""; then
+	$0 build
+	$0 run
+	exit 0
+fi
+echo "No such command: $COMM"

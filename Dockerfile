@@ -18,12 +18,17 @@ RUN apt-get update
 RUN apt-get install -y xpra xpra-html5
 
 #configure xpra
-RUN apt-get install -y xterm ed less vim lxterminal
+RUN apt-get install -y xterm ed less vim lxterminal wget
 RUN mkdir /run/xpra; chmod 777 /run/xpra
-RUN echo "start-child = /usr/bin/lxterminal" >>/etc/xpra/conf.d/60_server.conf 
+RUN echo "start-child = /usr/bin/xterm" >>/etc/xpra/conf.d/60_server.conf 
+# Switch off mdns
 RUN /bin/echo -e '/mdns\nc\nmdns = no\n.\nw\nq\n' | ed /etc/xpra/conf.d/50_server_network.conf         
+# Preselect German keyboard
 RUN /bin/echo -e '/lang =\nc\nvar lang="de-de";\n.\nw\nq\n'|ed /usr/share/xpra/www/connect.html
 RUN rm /usr/share/xpra/www/connect.html.*
+# Apply patch for German dead keys
+RUN cd /usr/share/xpra/www/js; rm Keycodes*; wget https://xpra.org/trac/export/24959/xpra/trunk/src/html5/js/Keycodes.js
+RUN cd /usr/share/xpra/www/js; /bin/echo -e '1739\ni\nCHARCODE_TO_NAME[221] = "dead_acute"\nCHARCODE_TO_NAME[220] = "dead_circumflex"\nCHARCODE_TO_NAME[219] = "backtick"\n.\nw\nq\n'|ed Keycodes.js
 
 #add a dummy user wuebbel with password wuebbel
 RUN adduser wuebbel </dev/null
